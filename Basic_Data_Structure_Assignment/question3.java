@@ -1,4 +1,4 @@
-package assignment_1;
+package basic_data_structure_assignment;
 
 import java.util.Scanner;
 
