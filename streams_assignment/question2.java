@@ -54,13 +54,12 @@ public class question2 {
     public static int maxComments(List<News> news) {
         HashMap<Integer, Integer> newsCommentCount = new HashMap<Integer, Integer>();
 
-        Consumer<List<News>> countComments = news1 -> {
-            for (News value : news1) {
-                int newsId = value.getNewsId();
-                newsCommentCount.put(newsId, newsCommentCount.getOrDefault(newsId, 0) + 1);
-            }
+        Consumer<News> countComments = news1 -> {
+            int newsId = news1.getNewsId();
+            newsCommentCount.put(newsId, newsCommentCount.getOrDefault(newsId, 0) + 1);
         };
-        countComments.accept(news);
+
+        news.stream().forEach(countComments);
 
         int maxCommentNewsId = 0;
         int maxCommentCount = 0;
@@ -76,31 +75,28 @@ public class question2 {
     public static int budgetCount(List<News> news) {
         int[] budgetWordCount = { 0 };
 
-        Consumer<List<News>> countBudget = news1 -> {
-            for (News n : news1) {
-                String comment = n.getComment();
-                String[] commentWords = comment.split(" ");
-                for (String str : commentWords) {
-                    if (str.toLowerCase().equals("budget")) {
-                        budgetWordCount[0] += 1;
-                    }
+        Consumer<News> countBudget = news1 -> {
+            String comment = news1.getComment();
+            String[] commentWords = comment.split(" ");
+            for (String str : commentWords) {
+                if (str.toLowerCase().equals("budget")) {
+                    budgetWordCount[0] += 1;
                 }
             }
         };
-        countBudget.accept(news);
+        news.stream().forEach(countBudget);
         return budgetWordCount[0];
     }
 
     public static String maxCommentsByUser(List<News> news) {
         HashMap<String, Integer> newsCommentCount = new HashMap<String, Integer>();
 
-        Consumer<List<News>> countComments = news1 -> {
-            for (News value : news1) {
-                String user = value.getCommentByUser();
-                newsCommentCount.put(user, newsCommentCount.getOrDefault(user, 0) + 1);
-            }
+        Consumer<News> countComments = news1 -> {
+            String user = news1.getCommentByUser();
+            newsCommentCount.put(user, newsCommentCount.getOrDefault(user, 0) + 1);
         };
-        countComments.accept(news);
+
+        news.stream().forEach(countComments);
 
         String maxCommentsByUser = "";
         int maxCommentCount = 0;
@@ -116,13 +112,12 @@ public class question2 {
     public static Map<String, Integer> sortMaxCommentsByUser(List<News> news) {
         Map<String, Integer> userCommentCount = new LinkedHashMap<>();
 
-        Consumer<List<News>> countCommentByUser = news1 -> {
-            for (News n : news1) {
-                String commentUser = n.getCommentByUser();
-                userCommentCount.put(commentUser, userCommentCount.getOrDefault(commentUser, 0) + 1);
-            }
+        Consumer<News> countCommentByUser = news1 -> {
+            String commentUser = news1.getCommentByUser();
+            userCommentCount.put(commentUser, userCommentCount.getOrDefault(commentUser, 0) + 1);
         };
-        countCommentByUser.accept(news);
+
+        news.stream().forEach(countCommentByUser);
         return userCommentCount;
     }
 
@@ -144,7 +139,7 @@ public class question2 {
 
         // Find out which user has posted maximum comments
         String maxUserComments = maxCommentsByUser(news);
-        System.out.println("User with most comments : " + maxUserComments);
+        System.out.println("User who posted most comments : " + maxUserComments);
 
         // Display commentByUser wise number of comments.
         Map<String, Integer> userCommentCount = sortMaxCommentsByUser(news);

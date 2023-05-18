@@ -54,7 +54,7 @@ class Fruit {
     public String toString() {
         return "Fruit{ name='" + name +
                 "', color='" + color +
-                ", calorie=" + calorie +
+                "', calorie=" + calorie +
                 ", price=" + price +
                 '}';
     }
@@ -78,28 +78,23 @@ public class question1 {
         });
 
         Predicate<Fruit> lessCalories = fruit -> fruit.getCalorie() < 100;
-        ArrayList<Fruit> lessCaloriesList = fruits.stream().filter(lessCalories)
-                .collect(Collectors.toCollection(ArrayList::new));
-
         List<String> fruitNames = new ArrayList<>();
-        Consumer<ArrayList<Fruit>> getFruitNames = fruitss -> {
-            for (Fruit fruit : fruitss) {
-                fruitNames.add(fruit.getName());
-            }
+        Consumer<Fruit> getFruitNames = fruit -> {
+            fruitNames.add(fruit.getName());
         };
-        getFruitNames.accept(lessCaloriesList);
+
+        fruits.stream().filter(lessCalories).forEach(getFruitNames);
 
         return fruitNames;
     }
 
     public static ArrayList<Fruit> sort(ArrayList<Fruit> fruits) {
-        fruits.sort(new Comparator<Fruit>() {
+        return fruits.stream().sorted(new Comparator<Fruit>() {
             @Override
             public int compare(Fruit f1, Fruit f2) {
                 return f1.getColor().compareTo(f2.getColor());
             }
-        });
-        return fruits;
+        }).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public static ArrayList<Fruit> filterRedSortPrice(ArrayList<Fruit> fruits) {

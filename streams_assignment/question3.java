@@ -42,16 +42,14 @@ public class question3 {
     public static List<String> printUniqueCities(List<Trader> traders) {
         List<String> cities = new ArrayList<>();
 
-        Consumer<List<Trader>> findUniqueCities = traders1 -> {
-            for (Trader trader : traders1) {
-                String city = trader.getCity();
-                if (!cities.contains(city)) {
-                    cities.add(city);
-                }
+        Consumer<Trader> findUniqueCities = trader -> {
+            String city = trader.getCity();
+            if (!cities.contains(city)) {
+                cities.add(city);
             }
         };
-        findUniqueCities.accept(traders);
 
+        traders.stream().forEach(findUniqueCities);
         return cities;
     }
 
@@ -59,14 +57,13 @@ public class question3 {
     public static List<String> tradersFromPuneSortByName(List<Trader> traders) {
         List<String> traderNames = new ArrayList<>();
 
-        Consumer<List<Trader>> traderFromPune = traders1 -> {
-            for (Trader trader : traders1) {
-                if (trader.getCity().toLowerCase().equals("pune")) {
-                    traderNames.add(trader.getName());
-                }
+        Consumer<Trader> traderFromPune = trader -> {
+            if (trader.getCity().toLowerCase().equals("pune")) {
+                traderNames.add(trader.getName());
             }
         };
-        traderFromPune.accept(traders);
+
+        traders.stream().forEach(traderFromPune);
 
         Collections.sort(traderNames);
         return traderNames;
@@ -75,14 +72,14 @@ public class question3 {
     public static String allTrader3Names(List<Trader> traders) {
         List<String> traderNames = new ArrayList<>();
 
-        Consumer<List<Trader>> findAllTradersNames = traders1 -> {
-            for (Trader trader : traders1) {
-                traderNames.add(trader.getName());
-            }
+        Consumer<Trader> findAllTradersNames = trader -> {
+            traderNames.add(trader.getName());
         };
-        findAllTradersNames.accept(traders);
 
-        Collections.sort(traderNames);
+        traders.stream().sorted((t1, t2) -> {
+            return t1.getName().compareTo(t2.getName());
+        }).forEach(findAllTradersNames);
+
         StringBuilder sb = new StringBuilder();
         for (String name : traderNames) {
             sb.append(name);
@@ -93,14 +90,13 @@ public class question3 {
     public static ArrayList<Trader> areAnyTradersFromIndore(ArrayList<Trader> traders) {
         ArrayList<Trader> tradersFomIndore = new ArrayList<>();
 
-        Consumer<List<Trader>> findAllTradersNames = traders1 -> {
-            for (Trader trader : traders1) {
-                if (trader.getCity().toLowerCase().equals("indore")) {
-                    tradersFomIndore.add(trader);
-                }
+        Consumer<Trader> traderFromIndore = trader -> {
+            if (trader.getCity().toLowerCase().equals("indore")) {
+                tradersFomIndore.add(trader);
             }
         };
-        findAllTradersNames.accept(traders);
+
+        traders.stream().forEach(traderFromIndore);
 
         return tradersFomIndore;
     }
