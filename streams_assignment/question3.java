@@ -1,7 +1,8 @@
 package streams_assignment;
 
 import java.util.*;
-import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 class Trader {
     private String name;
@@ -40,45 +41,18 @@ class Trader {
 public class question3 {
 
     public static List<String> printUniqueCities(List<Trader> traders) {
-        List<String> cities = new ArrayList<>();
-
-        Consumer<Trader> findUniqueCities = trader -> {
-            String city = trader.getCity();
-            if (!cities.contains(city)) {
-                cities.add(city);
-            }
-        };
-
-        traders.stream().forEach(findUniqueCities);
-        return cities;
+        return traders.stream().map(Trader::getCity).distinct().collect(Collectors.toCollection(ArrayList::new));
     }
 
-    //
     public static List<String> tradersFromPuneSortByName(List<Trader> traders) {
-        List<String> traderNames = new ArrayList<>();
-
-        Consumer<Trader> traderFromPune = trader -> {
-            if (trader.getCity().toLowerCase().equals("pune")) {
-                traderNames.add(trader.getName());
-            }
-        };
-
-        traders.stream().forEach(traderFromPune);
-
-        Collections.sort(traderNames);
-        return traderNames;
+        Predicate<Trader> traderFromPune = trader -> trader.getCity().toLowerCase().equals("pune");
+        return traders.stream().filter(traderFromPune).sorted((t1, t2) -> t1.getName().compareTo(t2.getName()))
+                .map(Trader::getName).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public static String allTrader3Names(List<Trader> traders) {
-        List<String> traderNames = new ArrayList<>();
-
-        Consumer<Trader> findAllTradersNames = trader -> {
-            traderNames.add(trader.getName());
-        };
-
-        traders.stream().sorted((t1, t2) -> {
-            return t1.getName().compareTo(t2.getName());
-        }).forEach(findAllTradersNames);
+        List<String> traderNames = traders.stream().map(Trader::getName)
+                .sorted((name1, name2) -> name1.compareTo(name2)).collect(Collectors.toCollection(ArrayList::new));
 
         StringBuilder sb = new StringBuilder();
         for (String name : traderNames) {
@@ -88,17 +62,8 @@ public class question3 {
     }
 
     public static ArrayList<Trader> areAnyTradersFromIndore(ArrayList<Trader> traders) {
-        ArrayList<Trader> tradersFomIndore = new ArrayList<>();
-
-        Consumer<Trader> traderFromIndore = trader -> {
-            if (trader.getCity().toLowerCase().equals("indore")) {
-                tradersFomIndore.add(trader);
-            }
-        };
-
-        traders.stream().forEach(traderFromIndore);
-
-        return tradersFomIndore;
+        Predicate<Trader> traderFromPune = trader -> trader.getCity().toLowerCase().equals("indore");
+        return traders.stream().filter(traderFromPune).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public static void main(String[] args) {

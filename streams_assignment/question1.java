@@ -2,7 +2,6 @@ package streams_assignment;
 
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 class Fruit {
@@ -63,29 +62,9 @@ class Fruit {
 public class question1 {
 
     public static List<String> reverseSort(ArrayList<Fruit> fruits) {
-
-        fruits.sort(new Comparator<Fruit>() {
-            @Override
-            public int compare(Fruit f1, Fruit f2) {
-                if (f1.getCalorie() > f2.getCalorie()) {
-                    return -1;
-                }
-                if (f1.getCalorie() < f2.getCalorie()) {
-                    return 1;
-                }
-                return 0;
-            }
-        });
-
         Predicate<Fruit> lessCalories = fruit -> fruit.getCalorie() < 100;
-        List<String> fruitNames = new ArrayList<>();
-        Consumer<Fruit> getFruitNames = fruit -> {
-            fruitNames.add(fruit.getName());
-        };
-
-        fruits.stream().filter(lessCalories).forEach(getFruitNames);
-
-        return fruitNames;
+        return fruits.stream().filter(lessCalories).sorted((f1, f2) -> f2.getCalorie() - f1.getCalorie())
+                .map(Fruit::getName).collect(Collectors.toList());
     }
 
     public static ArrayList<Fruit> sort(ArrayList<Fruit> fruits) {
