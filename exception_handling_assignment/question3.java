@@ -42,12 +42,13 @@ public class question3 {
 
         accountObj.deposit(1000);
         try {
-            double amountWithdrawn = accountObj.withdraw(100); // executes successfully
+            double amountWithdrawn = accountObj.withdraw(1000); // executes successfully
 
-            // double amountWithdrawn1 = accountObj.withdraw(10); // throws
+            double amountWithdrawn1 = accountObj.withdraw(10); // throws
             // InsufficientBalanceException
 
-            double amount1 = accountObj.withdraw(-1000); // throws IllegalBankTransactionException
+            double amount1 = accountObj.withdraw(-1000); // throws
+            // IllegalBankTransactionException
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
