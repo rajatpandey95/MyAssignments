@@ -27,8 +27,8 @@ class Client {
 public class question6 {
     public static void main(String[] args) {
 
-        FilePersistence filePerObj = new FilePersistence();
-        DatabasePersistence databasePerObj = new DatabasePersistence();
+        Persistence filePerObj = new FilePersistence();
+        Persistence databasePerObj = new DatabasePersistence();
 
         Client clientObj = new Client();
         clientObj.saveData(filePerObj);
